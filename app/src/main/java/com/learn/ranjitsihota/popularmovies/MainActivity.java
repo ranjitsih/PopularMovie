@@ -32,6 +32,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -50,6 +54,7 @@ public class MainActivity extends  Activity {
         ArrayList<Movie> aMovies = new ArrayList<Movie>();
         adapterMovies = new MoviesAdapter(this, aMovies);
         lvMovies.setAdapter(adapterMovies);
+        //registerForContextMenu(lvMovies);
         /*
         if(!isConnected()){
             tvIsConnected.setText("You are NOT conncted");
@@ -61,6 +66,14 @@ public class MainActivity extends  Activity {
 
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("SORT");
+        menu.add(0, v.getId(), 0, "Most Popular");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Highest-Rated");
+    }
     public static String GET(String url){
         InputStream inputStream = null;
         String result = "";

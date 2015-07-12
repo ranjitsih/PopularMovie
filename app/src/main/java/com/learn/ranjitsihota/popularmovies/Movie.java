@@ -14,7 +14,7 @@ public class Movie implements Serializable {
     private String synopsis;
     private String posterUrl;
     private String releaseDate;
-    private double userRating;
+    private String userRating;
 
     public String getTitle() {return title;}
     public int getId() {return id;}
@@ -27,7 +27,7 @@ public class Movie implements Serializable {
     public String getReleaseDate() {
         return releaseDate;
     }
-    public double getUserRating() {
+    public String getUserRating() {
         return userRating;
     }
 
@@ -39,7 +39,7 @@ public class Movie implements Serializable {
             movie.synopsis = jsonObject.getString("overview");
             movie.posterUrl = "http://image.tmdb.org/t/p/w500" + jsonObject.getString("poster_path");
             movie.releaseDate = jsonObject.getString("release_date");
-            movie.userRating = jsonObject.getDouble("vote_average");
+            movie.userRating = jsonObject.getString("vote_average");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class Movie implements Serializable {
         movie.synopsis = "abc abc abc ";
         movie.posterUrl = "http://image.tmdb.org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg";
         movie.releaseDate = "12-33-33";
-        movie.userRating = 7.99;
+        movie.userRating = "7.99";
         return movie;
     }
 
@@ -65,7 +65,7 @@ public class Movie implements Serializable {
         movie.synopsis = "abc abc abc ";
         movie.posterUrl = "http://image.tmdb.org/t/p/w500/uXZYawqUsChGSj54wcuBtEdUJbh.jpg";
         movie.releaseDate = "12-33-33";
-        movie.userRating = 7.99;
+        movie.userRating = "7.99";
         return movie;
     }
     public static ArrayList<Movie> fromJson(JSONArray jsonArray) {

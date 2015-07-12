@@ -24,6 +24,34 @@
         android:layout_toRightOf="@+id/ivPosterImage"
         android:text="ABC"
         android:textSize="14sp" />
+    <TextView
+        android:id="@+id/synopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/ivPosterImage"
+        android:layout_below="@+id/tvTitle"
+        android:text="ABC"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/ivPosterImage"
+        android:layout_below="@+id/synopsis"
+        android:text="ABC"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/user_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/ivPosterImage"
+        android:layout_below="@+id/release_date"
+        android:text="ABC"
+        android:textSize="14sp" />
+
 
 
 
