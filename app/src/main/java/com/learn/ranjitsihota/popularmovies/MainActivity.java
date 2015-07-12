@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import com.loopj.android.http.JsonHttpResponseHandler;
+
 
 
 public class MainActivity extends  Activity {
@@ -66,8 +66,7 @@ public class MainActivity extends  Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View item, int position, long rowId) {
                 Intent i = new Intent(MainActivity.this, DetailActivity.class);
-                //i.putExtra(MOVIE_DETAIL_KEY, adapterMovies.getItem(position));
-                i.putExtra(MOVIE_DETAIL_KEY,adapterMovies.getItem(position).getId());
+                i.putExtra(MOVIE_DETAIL_KEY, adapterMovies.getItem(position));
                 startActivity(i);
             }
         });

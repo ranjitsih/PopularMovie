@@ -5,9 +5,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Movie {
+public class Movie implements Serializable {
     private int id;
     private String title;
     private String synopsis;
