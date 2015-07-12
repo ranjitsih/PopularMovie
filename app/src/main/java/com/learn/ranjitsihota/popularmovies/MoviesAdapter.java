@@ -23,12 +23,10 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.adapter_item, null);
         }
-        // Lookup view for data population
 
         ImageView ivPosterImage = (ImageView) convertView.findViewById(R.id.ivPosterImage);
 
         Picasso.with(getContext()).load(movie.getPosterUrl()).into(ivPosterImage);
-        // Return the completed view to render on screen
         return convertView;
     }
 

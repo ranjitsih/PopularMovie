@@ -37,7 +37,7 @@ public class Movie implements Serializable {
             movie.id = jsonObject.getInt("id");
             movie.title = jsonObject.getString("title");
             movie.synopsis = jsonObject.getString("overview");
-            movie.posterUrl = jsonObject.getString("poster_path");
+            movie.posterUrl = "http://image.tmdb.org/t/p/w500" + jsonObject.getString("poster_path");
             movie.releaseDate = jsonObject.getString("release_date");
             movie.userRating = jsonObject.getDouble("vote_average");
 
@@ -50,9 +50,20 @@ public class Movie implements Serializable {
     public static Movie from() {
         Movie movie = new Movie();
         movie.id = 233;
-        movie.title = "abc";
+        movie.title = "Fight Club";
         movie.synopsis = "abc abc abc ";
         movie.posterUrl = "http://image.tmdb.org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg";
+        movie.releaseDate = "12-33-33";
+        movie.userRating = 7.99;
+        return movie;
+    }
+
+    public static Movie from2() {
+        Movie movie = new Movie();
+        movie.id = 233;
+        movie.title = "Jurassic World";
+        movie.synopsis = "abc abc abc ";
+        movie.posterUrl = "http://image.tmdb.org/t/p/w500/uXZYawqUsChGSj54wcuBtEdUJbh.jpg";
         movie.releaseDate = "12-33-33";
         movie.userRating = 7.99;
         return movie;
