@@ -54,14 +54,8 @@ public class MainActivity extends  Activity {
         ArrayList<Movie> aMovies = new ArrayList<Movie>();
         adapterMovies = new MoviesAdapter(this, aMovies);
         lvMovies.setAdapter(adapterMovies);
-        //registerForContextMenu(lvMovies);
-        /*
-        if(!isConnected()){
-            tvIsConnected.setText("You are NOT conncted");
-        }*/
-
-        // call AsynTask to perform network operation on separate thread
-        new HttpAsyncTask().execute("http://private-anon-3bebd182e-themoviedb.apiary-mock.com/3/discover/movie?sort_by=popularity.desc&page=1");
+        registerForContextMenu(lvMovies);
+        new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
 
 
     }
@@ -74,6 +68,19 @@ public class MainActivity extends  Activity {
         menu.add(0, v.getId(), 0, "Most Popular");//groupId, itemId, order, title
         menu.add(0, v.getId(), 0, "Highest-Rated");
     }
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        adapterMovies.clear();
+
+        String sortType = "popularity.desc";
+        if(item.getTitle()=="Highest-Rated"){
+            sortType = "vote_average.desc";
+        }
+        new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType +"&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
+        adapterMovies.notifyDataSetChanged();
+        return true;
+    }
+
     public static String GET(String url){
         InputStream inputStream = null;
         String result = "";
