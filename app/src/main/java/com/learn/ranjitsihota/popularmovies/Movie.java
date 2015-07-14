@@ -34,7 +34,7 @@ public class Movie implements Serializable {
     public static Movie fromJson(JSONObject jsonObject) {
         Movie movie = new Movie();
         try {
-            
+
             movie.id = jsonObject.getInt("id");
             movie.title = jsonObject.getString("title");
             movie.synopsis = jsonObject.getString("overview");
