@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,9 +46,25 @@ public class MainActivity extends  Activity {
         lvMovies.setAdapter(adapterMovies);
         registerForContextMenu(lvMovies);
         new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
-
-
     }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return true;
+        }
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            adapterMovies.clear();
+
+            String sortType = "popularity.desc";
+            //String type = item.getTitle().toString();
+            if(item.getTitle().toString().equals("Highest-Rated")){
+                sortType = "vote_average.desc";
+            }
+            new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType +"&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
+            adapterMovies.notifyDataSetChanged();
+            return true;
+        }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
