@@ -3,18 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
-    tools:context=".BoxOfficeDetailActivity" >
+    tools:context=".BoxOfficeDetailActivity">
 
-        <ImageView
+    <ImageView
         android:id="@+id/ivPosterImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
         android:maxHeight="179dp"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:src="@drawable/small_movie_poster" />
+        android:src="@drawable/small_movie_poster"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"/>
 
     <TextView
         android:id="@+id/tvTitle"
@@ -23,36 +25,51 @@
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/ivPosterImage"
         android:text="ABC"
-        android:textSize="14sp" />
-    <TextView
-        android:id="@+id/synopsis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/ivPosterImage"
-        android:layout_below="@+id/tvTitle"
-        android:text="ABC"
-        android:textSize="14sp" />
+        android:textSize="20sp"
+        android:layout_marginLeft="24dp"/>
+
     <TextView
         android:id="@+id/release_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="24dp"
         android:layout_toRightOf="@+id/ivPosterImage"
-        android:layout_below="@+id/synopsis"
         android:text="ABC"
         android:textSize="14sp" />
+
     <TextView
         android:id="@+id/user_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/release_date"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/ivPosterImage"
-        android:layout_below="@+id/release_date"
+        android:text="ABC"
+        android:textSize="14sp"
+        android:layout_marginLeft="24dp"/>
+
+    <Button
+        android:id="@+id/sort_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_rating"
+        android:layout_toRightOf="@+id/ivPosterImage"
+        android:text="MARK AS FAVORITES"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="5dp"
+        android:padding="12dp"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/synopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivPosterImage"
+        android:layout_margin="5dp"
         android:text="ABC"
         android:textSize="14sp" />
-
-
 
 
 </RelativeLayout>

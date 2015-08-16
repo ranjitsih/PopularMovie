@@ -1,10 +1,20 @@
 package com.learn.ranjitsihota.popularmovies;
 
 
+import android.os.AsyncTask;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -15,6 +25,7 @@ public class Movie implements Serializable {
     private String posterUrl;
     private String releaseDate;
     private String userRating;
+    private String trailerUrl;
 
     public String getTitle() {return title;}
     public int getId() {return id;}
@@ -30,6 +41,40 @@ public class Movie implements Serializable {
     public String getUserRating() {
         return userRating;
     }
+    public String getTrailerUrl() {return trailerUrl;}
+
+    private static String GetTrailerUrl(String apiUrl)
+    {
+        InputStream inputStream = null;
+        String url = "";
+        String result = "";
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse httpResponse = httpclient.execute(new HttpGet(apiUrl));
+            inputStream = httpResponse.getEntity().getContent();
+            if(inputStream != null)
+                result = convertInputStreamToString(inputStream);
+            else
+                result = "Did not work!";
+
+        } catch (Exception e) {
+
+            return "";
+        }
+
+        return result;
+    }
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
+    }
 
     public static Movie fromJson(JSONObject jsonObject) {
         Movie movie = new Movie();
@@ -41,6 +86,7 @@ public class Movie implements Serializable {
             movie.posterUrl = "http://image.tmdb.org/t/p/w500" + jsonObject.getString("poster_path");
             movie.releaseDate = jsonObject.getString("release_date");
             movie.userRating = jsonObject.getString("vote_average");
+            movie.trailerUrl = GetTrailerUrl("http://api.themoviedb.org/3/movie/" + movie.id +"/videos?api_key=7e53348ae448d88502f968a61ae1b9ee");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,5 +133,17 @@ public class Movie implements Serializable {
         }
 
         return businesses;
+    }
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            return GetTrailerUrl(urls[0]);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
     }
 }

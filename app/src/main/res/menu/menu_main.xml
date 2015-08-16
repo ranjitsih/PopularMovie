@@ -4,14 +4,18 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_sort"
-        android:title="Sort"
         android:orderInCategory="1"
-        app:showAsAction="never" >
-    <item
-        android:id="@+id/sort_popular"
-        android:title="Most Popular" />
-    <item
-        android:id="@+id/sort_rating"
-        android:title="Highest-Rated" />
+        android:title="Sort"
+        app:showAsAction="never">
+        <item
+            android:id="@+id/sort_popular"
+            android:title="Most Popular" />
+        <item
+            android:id="@+id/sort_rating"
+            android:title="Highest-Rated" />
+
+        <item
+            android:id="@+id/sort_favorites"
+            android:title="Favorites" />
     </item>
 </menu>
