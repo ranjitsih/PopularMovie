@@ -1,5 +1,7 @@
 package com.learn.ranjitsihota.popularmovies;
 
+import java.util.ArrayList;
+import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -15,12 +17,16 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class DetailActivity extends Activity {
     private ImageView ivPosterImage;
@@ -104,7 +110,24 @@ public class DetailActivity extends Activity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            trailer.setText(result);
+            JSONObject json = null;
+            ArrayList<String> trailerList = new ArrayList();
+            String url = "https://www.youtube.com/watch?v=" ;
+            try {
+                json = new JSONObject(result);
+                JSONArray movieJson = json.getJSONArray("results");
+                for (int i = 0; i < movieJson.length(); i++) {
+                    url =  url + movieJson.getJSONObject(i).getString("key");
+                    trailerList.add(url);
+
+                }
+
+                trailer.setText(trailerList.toString());
+            } catch (JSONException e) {
+                trailer.setText("");
+            }
+
+
 
         }
     }
@@ -118,7 +141,22 @@ public class DetailActivity extends Activity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            reviews.setText(result);
+            JSONObject json = null;
+            ArrayList<String> reviewsList = new ArrayList();
+
+            try {
+                json = new JSONObject(result);
+                JSONArray movieJson = json.getJSONArray("results");
+                for (int i = 0; i < movieJson.length(); i++) {
+                    reviewsList.add(movieJson.getJSONObject(i).getString("content"));
+
+                }
+
+            } catch (JSONException e) {
+                reviews.setText("");
+            }
+
+            reviews.setText(reviewsList.toString());
 
         }
     }
