@@ -118,14 +118,7 @@ public class MainActivity extends  Activity {
 
     }
 
-    public boolean isConnected(){
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }
+
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
@@ -139,6 +132,7 @@ public class MainActivity extends  Activity {
             setupMovieSelectedListener();
         }
     }
+
     private void fetchBoxOfficeMovies(String result) {
         ArrayList<Movie> movies = new ArrayList<>();
         JSONObject json = null;

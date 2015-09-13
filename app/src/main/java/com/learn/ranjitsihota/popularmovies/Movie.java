@@ -43,27 +43,7 @@ public class Movie implements Serializable {
     }
     public String getTrailerUrl() {return trailerUrl;}
 
-    private static String GetTrailerUrl(String apiUrl)
-    {
-        InputStream inputStream = null;
-        String url = "";
-        String result = "";
-        try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(apiUrl));
-            inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
 
-        } catch (Exception e) {
-
-            return "";
-        }
-
-        return result;
-    }
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";
@@ -86,7 +66,8 @@ public class Movie implements Serializable {
             movie.posterUrl = "http://image.tmdb.org/t/p/w500" + jsonObject.getString("poster_path");
             movie.releaseDate = jsonObject.getString("release_date");
             movie.userRating = jsonObject.getString("vote_average");
-            movie.trailerUrl = GetTrailerUrl("http://api.themoviedb.org/3/movie/" + movie.id +"/videos?api_key=7e53348ae448d88502f968a61ae1b9ee");
+
+            //movie.trailerUrl = GetTrailerUrl("http://api.themoviedb.org/3/movie/" + movie.id +"/videos?api_key=7e53348ae448d88502f968a61ae1b9ee");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -134,16 +115,5 @@ public class Movie implements Serializable {
 
         return businesses;
     }
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
 
-            return GetTrailerUrl(urls[0]);
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-
-        }
-    }
 }
