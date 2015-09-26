@@ -9,7 +9,12 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Button;
+import android.view.View;
+import android.content.Intent;
+import android.net.Uri;
 
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 
 public class DetailActivity extends Activity {
     private ImageView ivPosterImage;
@@ -35,7 +42,10 @@ public class DetailActivity extends Activity {
     private TextView tvCriticsScore;
     private TextView tvReleaseDate;
     private TextView trailer;
-    private TextView reviews;
+    private ListView reviews;
+    private Button boutonVideo;
+    private ArrayAdapter<String> reviewsAdapter;
+    private ArrayList<String> reviewsItems;
 
 
     @Override
@@ -49,7 +59,14 @@ public class DetailActivity extends Activity {
         tvReleaseDate = (TextView) findViewById(R.id.release_date);
         tvCriticsScore = (TextView) findViewById(R.id.user_rating);
         trailer = (TextView) findViewById(R.id.trailer);
-        reviews = (TextView) findViewById(R.id.reviews);
+        reviews = (ListView) findViewById(R.id.reviews);
+        boutonVideo = (Button) findViewById(R.id.trailer);
+        reviewsItems = new ArrayList<String>();
+        reviewsAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                reviewsItems );
+        reviews.setAdapter(reviewsAdapter);
+
         Movie movie = (Movie) getIntent().getSerializableExtra(MainActivity.MOVIE_DETAIL_KEY);
         loadMovie(movie);
     }
@@ -116,15 +133,30 @@ public class DetailActivity extends Activity {
             try {
                 json = new JSONObject(result);
                 JSONArray movieJson = json.getJSONArray("results");
-                for (int i = 0; i < movieJson.length(); i++) {
+                /*for (int i = 0; i < movieJson.length(); i++) {
                     url =  url + movieJson.getJSONObject(i).getString("key");
                     trailerList.add(url);
 
-                }
+                }*/
+                url =  url + movieJson.getJSONObject(0).getString("key");
+                final String abc = url;
+                boutonVideo.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent in;
+                        if (v.getId() == boutonVideo.getId()) {
+                            in = new Intent(Intent.ACTION_VIEW, Uri
+                                    .parse(abc));
+                            startActivity(in);
+                        }
 
-                trailer.setText(trailerList.toString());
+                    }
+                });
+
+
+                trailer.setText("Play Trailer");
+
             } catch (JSONException e) {
-                trailer.setText("");
+                trailer.setText("Play Trailer");
             }
 
 
@@ -141,22 +173,23 @@ public class DetailActivity extends Activity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
+            reviewsItems.clear();
             JSONObject json = null;
-            ArrayList<String> reviewsList = new ArrayList();
-
             try {
                 json = new JSONObject(result);
                 JSONArray movieJson = json.getJSONArray("results");
                 for (int i = 0; i < movieJson.length(); i++) {
-                    reviewsList.add(movieJson.getJSONObject(i).getString("content"));
+                    reviewsItems.add(movieJson.getJSONObject(i).getString("content"));
 
                 }
 
             } catch (JSONException e) {
-                reviews.setText("");
+                reviewsItems.clear();
             }
 
-            reviews.setText(reviewsList.toString());
+
+            reviewsAdapter.notifyDataSetChanged();
+
 
         }
     }
