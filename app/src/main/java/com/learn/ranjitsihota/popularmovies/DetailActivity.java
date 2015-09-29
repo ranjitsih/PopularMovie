@@ -35,6 +35,7 @@ import java.util.StringTokenizer;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.view.View.OnClickListener;
+import android.graphics.Color;
 
 public class DetailActivity extends Activity {
     private ImageView ivPosterImage;
@@ -79,7 +80,16 @@ public class DetailActivity extends Activity {
         public void onClick(final View v) {
             switch(v.getId()){
                 case R.id.sort_favorites:
-                    addToFavoriteButton.setText("ABC DEF");
+                    if(addToFavoriteButton.getText() == "Favorite") {
+                        addToFavoriteButton.setText("MARK AS FAVORITES");
+                        addToFavoriteButton.setBackgroundColor(Color.GRAY);
+                    }
+                    else
+                    {
+                        addToFavoriteButton.setText("Favorite");
+                        addToFavoriteButton.setBackgroundColor(Color.TRANSPARENT);
+                    }
+
                     break;
 
             }
