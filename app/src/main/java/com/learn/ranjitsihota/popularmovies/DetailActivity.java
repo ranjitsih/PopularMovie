@@ -34,6 +34,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.view.View.OnClickListener;
 
 public class DetailActivity extends Activity {
     private ImageView ivPosterImage;
@@ -46,6 +47,7 @@ public class DetailActivity extends Activity {
     private Button boutonVideo;
     private ArrayAdapter<String> reviewsAdapter;
     private ArrayList<String> reviewsItems;
+    private Button addToFavoriteButton;
 
 
     @Override
@@ -61,6 +63,8 @@ public class DetailActivity extends Activity {
         trailer = (TextView) findViewById(R.id.trailer);
         reviews = (ListView) findViewById(R.id.reviews);
         boutonVideo = (Button) findViewById(R.id.trailer);
+        addToFavoriteButton = (Button) findViewById(R.id.sort_favorites);
+        addToFavoriteButton.setOnClickListener(onClickListener);
         reviewsItems = new ArrayList<String>();
         reviewsAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
@@ -70,7 +74,17 @@ public class DetailActivity extends Activity {
         Movie movie = (Movie) getIntent().getSerializableExtra(MainActivity.MOVIE_DETAIL_KEY);
         loadMovie(movie);
     }
+    private OnClickListener onClickListener = new OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            switch(v.getId()){
+                case R.id.sort_favorites:
+                    addToFavoriteButton.setText("ABC DEF");
+                    break;
 
+            }
+        }
+    };
     // Populate the data for the movie
     @SuppressLint("NewApi")
     public void loadMovie(Movie movie) {

@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Movie implements Serializable {
     private int id;
@@ -26,6 +27,7 @@ public class Movie implements Serializable {
     private String releaseDate;
     private String userRating;
     private String trailerUrl;
+    private boolean isFavorite;
 
     public String getTitle() {return title;}
     public int getId() {return id;}
@@ -42,6 +44,7 @@ public class Movie implements Serializable {
         return userRating;
     }
     public String getTrailerUrl() {return trailerUrl;}
+    public boolean getIsFavorite() {return isFavorite;}
 
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
@@ -96,7 +99,7 @@ public class Movie implements Serializable {
         movie.userRating = "7.99";
         return movie;
     }
-    public static ArrayList<Movie> fromJson(JSONArray jsonArray) {
+    public static ArrayList<Movie> fromJson(JSONArray jsonArray,List<Favorite> favorities) {
         ArrayList<Movie> businesses = new ArrayList<Movie>(jsonArray.length());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject businessJson = null;
@@ -109,6 +112,18 @@ public class Movie implements Serializable {
 
             Movie business = Movie.fromJson(businessJson);
             if (business != null) {
+                for(int j = 0; i < favorities.size();j++)
+                {
+                    if(favorities.get(j).getID() == business.getId())
+                    {
+                        business.isFavorite = true;
+                        break;
+                    }
+                    else
+                    {
+                        business.isFavorite = false;
+                    }
+                }
                 businesses.add(business);
             }
         }

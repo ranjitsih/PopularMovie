@@ -28,10 +28,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends  Activity {
     private GridView lvMovies;
     private MoviesAdapter adapterMovies;
+    private DatabaseHandler db;
     //private ThemoviedbClient client;
     public static final String MOVIE_DETAIL_KEY = "movie";
     //EditText etResponse;
@@ -39,6 +41,7 @@ public class MainActivity extends  Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new DatabaseHandler(this);
         setContentView(R.layout.activity_main);
         lvMovies = (GridView) findViewById(R.id.lvMovies);
         ArrayList<Movie> aMovies = new ArrayList<Movie>();
@@ -135,11 +138,13 @@ public class MainActivity extends  Activity {
 
     private void fetchBoxOfficeMovies(String result) {
         ArrayList<Movie> movies = new ArrayList<>();
+        List<Favorite> favorite = db.getAllFavorites();
         JSONObject json = null;
         try {
             json = new JSONObject(result);
             JSONArray movieJson = json.getJSONArray("results");
-            movies = Movie.fromJson(movieJson);
+            movies = Movie.fromJson(movieJson,favorite);
+
 
         }
         catch (Exception e)
