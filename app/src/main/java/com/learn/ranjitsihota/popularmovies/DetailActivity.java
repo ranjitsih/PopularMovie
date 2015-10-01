@@ -49,10 +49,12 @@ public class DetailActivity extends Activity {
     private ArrayAdapter<String> reviewsAdapter;
     private ArrayList<String> reviewsItems;
     private Button addToFavoriteButton;
-
+    private Movie movie;
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        db = new DatabaseHandler(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
         // Fetch views
@@ -72,22 +74,29 @@ public class DetailActivity extends Activity {
                 reviewsItems );
         reviews.setAdapter(reviewsAdapter);
 
-        Movie movie = (Movie) getIntent().getSerializableExtra(MainActivity.MOVIE_DETAIL_KEY);
+        movie = (Movie) getIntent().getSerializableExtra(MainActivity.MOVIE_DETAIL_KEY);
         loadMovie(movie);
     }
     private OnClickListener onClickListener = new OnClickListener() {
         @Override
         public void onClick(final View v) {
+            Favorite favorite = new Favorite();
+            favorite.setID(movie.getId());
             switch(v.getId()){
                 case R.id.sort_favorites:
                     if(addToFavoriteButton.getText() == "Favorite") {
                         addToFavoriteButton.setText("MARK AS FAVORITES");
                         addToFavoriteButton.setBackgroundColor(Color.GRAY);
+                        movie.setIsFavorite(false);
+                        db.deleteFavorite(favorite);
+
                     }
                     else
                     {
                         addToFavoriteButton.setText("Favorite");
                         addToFavoriteButton.setBackgroundColor(Color.TRANSPARENT);
+                        movie.setIsFavorite(true);
+                        db.addFavorite(favorite);
                     }
 
                     break;
@@ -106,6 +115,16 @@ public class DetailActivity extends Activity {
         tvSynopsis.setText(movie.getSynopsis());
         tvReleaseDate.setText(movie.getReleaseDate());
         tvCriticsScore.setText(movie.getUserRating());
+
+        if(movie.getIsFavorite()) {
+            addToFavoriteButton.setText("Favorite");
+            addToFavoriteButton.setBackgroundColor(Color.TRANSPARENT);
+        }
+        else
+        {
+            addToFavoriteButton.setText("MARK AS FAVORITES");
+            addToFavoriteButton.setBackgroundColor(Color.GRAY);
+        }
         Picasso.with(this).load(movie.getPosterUrl()).
                 placeholder(R.drawable.large_movie_poster).
                 into(ivPosterImage);

@@ -55,8 +55,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public List<Favorite> getAllFavorites() {
-        List<Favorite> contactList = new ArrayList<Favorite>();
+    public ArrayList<Favorite> getAllFavorites() {
+        ArrayList<Favorite> contactList = new ArrayList<Favorite>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
 

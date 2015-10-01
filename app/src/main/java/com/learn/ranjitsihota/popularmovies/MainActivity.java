@@ -138,7 +138,7 @@ public class MainActivity extends  Activity {
 
     private void fetchBoxOfficeMovies(String result) {
         ArrayList<Movie> movies = new ArrayList<>();
-        List<Favorite> favorite = db.getAllFavorites();
+        ArrayList<Favorite> favorite = db.getAllFavorites();
         JSONObject json = null;
         try {
             json = new JSONObject(result);
