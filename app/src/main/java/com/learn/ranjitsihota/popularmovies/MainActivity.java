@@ -34,6 +34,7 @@ public class MainActivity extends  Activity {
     private GridView lvMovies;
     private MoviesAdapter adapterMovies;
     private DatabaseHandler db;
+    private Boolean favoritesSortOn = false;
     //private ThemoviedbClient client;
     public static final String MOVIE_DETAIL_KEY = "movie";
 
@@ -57,7 +58,7 @@ public class MainActivity extends  Activity {
         super.onResume();  // Always call the superclass method first
         adapterMovies.clear();
         String sortType = "popularity.desc";
-        
+
         new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType + "&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
         adapterMovies.notifyDataSetChanged();
 
@@ -70,25 +71,22 @@ public class MainActivity extends  Activity {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             adapterMovies.clear();
-
+            favoritesSortOn = false;
             String sortType = "popularity.desc";
             //String type = item.getTitle().toString();
             if(item.getTitle().toString().equals("Highest-Rated")){
                 sortType = "vote_average.desc";
             }
-            new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType +"&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
+            if(item.getTitle().toString().equals("Favorites"))
+            {
+                favoritesSortOn = true;
+            }
+            new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType + "&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
             adapterMovies.notifyDataSetChanged();
             return true;
         }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-    {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("SORT");
-        menu.add(0, v.getId(), 0, "Most Popular");//groupId, itemId, order, title
-        menu.add(0, v.getId(), 0, "Highest-Rated");
-    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item){
         adapterMovies.clear();
@@ -97,6 +95,8 @@ public class MainActivity extends  Activity {
         if(item.getTitle()=="Highest-Rated"){
             sortType = "vote_average.desc";
         }
+
+
         new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType +"&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
         adapterMovies.notifyDataSetChanged();
         return true;
@@ -155,7 +155,7 @@ public class MainActivity extends  Activity {
         try {
             json = new JSONObject(result);
             JSONArray movieJson = json.getJSONArray("results");
-            movies = Movie.fromJson(movieJson,favorite);
+            movies = Movie.fromJson(movieJson,favorite,favoritesSortOn);
 
 
         }

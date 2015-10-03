@@ -104,7 +104,7 @@ public class Movie implements Serializable {
         movie.userRating = "7.99";
         return movie;
     }
-    public static ArrayList<Movie> fromJson(JSONArray jsonArray,ArrayList<Favorite> favorities) {
+    public static ArrayList<Movie> fromJson(JSONArray jsonArray,ArrayList<Favorite> favorities,boolean favoritesSortOn) {
         ArrayList<Movie> businesses = new ArrayList<Movie>(jsonArray.length());
         int  length = favorities.size();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -131,7 +131,15 @@ public class Movie implements Serializable {
                         business.isFavorite = false;
                     }
                 }
-                businesses.add(business);
+                if(favoritesSortOn)
+                {
+                    if(business.isFavorite) {
+                        businesses.add(business);
+                    }
+                }
+                else {
+                    businesses.add(business);
+                }
             }
         }
 
