@@ -36,6 +36,7 @@ public class MainActivity extends  Activity {
     private DatabaseHandler db;
     //private ThemoviedbClient client;
     public static final String MOVIE_DETAIL_KEY = "movie";
+
     //EditText etResponse;
     //TextView tvIsConnected;
     @Override
@@ -49,6 +50,17 @@ public class MainActivity extends  Activity {
         lvMovies.setAdapter(adapterMovies);
         registerForContextMenu(lvMovies);
         new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        adapterMovies.clear();
+        String sortType = "popularity.desc";
+        
+        new HttpAsyncTask().execute("http://api.themoviedb.org/3/discover/movie?sort_by=" + sortType + "&api_key=7e53348ae448d88502f968a61ae1b9ee&page=1");
+        adapterMovies.notifyDataSetChanged();
+
     }
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {

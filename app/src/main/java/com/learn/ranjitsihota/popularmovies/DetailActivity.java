@@ -90,6 +90,7 @@ public class DetailActivity extends Activity {
                         movie.setIsFavorite(false);
                         db.deleteFavorite(favorite);
 
+
                     }
                     else
                     {
@@ -97,6 +98,7 @@ public class DetailActivity extends Activity {
                         addToFavoriteButton.setBackgroundColor(Color.TRANSPARENT);
                         movie.setIsFavorite(true);
                         db.addFavorite(favorite);
+                       
                     }
 
                     break;

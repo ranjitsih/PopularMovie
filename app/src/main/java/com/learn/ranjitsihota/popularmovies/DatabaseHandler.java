@@ -81,5 +81,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(TABLE_CONTACTS, MOVIE_ID + " = ?",
                 new String[] { String.valueOf(favorite.getID()) });
         db.close();
+
     }
 }
